@@ -1,10 +1,11 @@
 import React from "react";
+import {GameName, Text} from "./Styles/Hangman.styled";
 
 const Header = () => {
   return (
     <>
-      <h1>Hangman</h1>
-      <p>Choose the letters, find the word</p>
+      <GameName>Hangman</GameName>
+      <Text newGame={this.state.newGame}>Guess the word</Text>
     </>
   );
 };
