@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from "react";
-import socketIOClient from "socket.io-client";
+import { socket } from "./service/socket";
 import "./App.css";
-import Header from "./Components/Header";
+import Letters from "./Components/Letters";
 import Hangman from "./Components/Hangman";
 import Interactions from "./Components/Interactions";
+import Stroke from "./Components/Stroke";
 import { Container } from "./Components/Styles/Container.styled";
 import { GameName, Text } from "./Components/Styles/Hangman.styled";
 
-const ENDPOINT = "http://127.0.0.1:8123/";
-
 function App() {
-  const [response, setResponse] = useState("");
+  const [wordLength, setwordLength] = useState("");
   const [state, setState] = useState({
     words: [],
     stage: 11,
@@ -22,14 +21,27 @@ function App() {
   });
 
   useEffect(() => {
-    const socket = socketIOClient(ENDPOINT);
-    socket.on("new user", (data) => {
-      setResponse(data);
-    });
-
-    return() => socket.disconnect();
+    socket.on("new user", setwordLength);
+    socket.on("Letters guessed", setState.guessedLetters);
+    return () => {
+      socket.off("disconnect", setwordLength);
+    };
   }, []);
 
+
+  function Strokes() {
+    return (
+      <ul>
+        {Array.from(Array(wordLength), (e, i) => {
+          return (
+            <span key={(e, i)}>
+              <Stroke />
+            </span>
+          );
+        })}
+      </ul>
+    );
+  };
   return (
     <>
       <Container>
@@ -38,6 +50,8 @@ function App() {
         <Container>
           <Hangman />
         </Container>
+        <Strokes />
+        <Letters newGame={state.newGame} />
         <Interactions />
       </Container>
     </>
