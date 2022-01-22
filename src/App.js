@@ -1,10 +1,19 @@
+import React from 'react';
 import './App.css';
+import Header from './Components/Header';
+import Hangman from './Components/Hangman';
+import Interactions from './Components/Interactions';
+import {Container} from './Components/Styles/Container.styled'
 
 function App() {
   return (
-    <div>
-      
-    </div>
+    <Container>
+      <Header />
+      <Container>
+        <Hangman />
+      </Container>
+      <Interactions />
+    </Container>
   );
 }
 
