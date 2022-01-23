@@ -17,49 +17,55 @@ const Pictures = styled.div`
   border: 1px solid #000;
   width: 300px;
   height: 300px;
-  background: url(${notStarted}) center center;
+  background: url(${({currentStage}) => handleStage(currentStage)}) center;
   background-size: 100%;
   margin: 0 15px;
   transition: all 0.3s linear;
-  $[stage="11"] {
-    background-image: url(${notStarted});
-  }
-  $[stage="10"] {
-    background-image: url(${Left_10});
-  }
-  $[stage="9"] {
-    background-image: url(${Left_9});
-  }
-  $[stage="8"] {
-    background-image: url(${Left_8});
-  }
-  $[stage="7"] {
-    background-image: url(${Left_7});
-  }
-  $[stage="6"] {
-    background-image: url(${Left_6});
-  }
-  $[stage="5"] {
-    background-image: url(${Left_5});
-  }
-  $[stage="4"] {
-    background-image: url(${Left_4});
-  }
-  $[stage="3"] {
-    background-image: url(${Left_3});
-  }
-  $[stage="2"] {
-    background-image: url(${Left_2});
-  }
-  $[stage="1"] {
-    background-image: url(${Left_1});
-  }
-  $[stage="0"] {
-    background-image: url(${gameOver});
-  }
 `;
-const Hangman = props => {
-  return  <Pictures {...props} stage={props.currentStage} className="Hangman"/>;
-};
 
-export default Hangman;
+const handleStage =currentStage => {
+  switch (currentStage) {
+    case 11:
+      console.log("stage case: ", currentStage);
+      return notStarted;
+    case 10:
+      console.log("stage case: ", currentStage);
+      return Left_10;
+    case 9:
+      console.log("stage case: ", currentStage);
+      return Left_9;
+    case 8:
+      console.log("stage case: ", currentStage);
+      return Left_8;
+    case 7:
+      console.log("stage case: ", currentStage);
+      return Left_7;
+    case 6:
+      console.log("stage case: ", currentStage);
+      return Left_6;
+    case 5:
+      console.log("stage case: ", currentStage);
+      return Left_5;
+    case 4:
+      console.log("stage case: ", currentStage);
+      return Left_4;
+    case 3:
+      console.log("stage case: ", currentStage);
+      return Left_3;
+    case 2:
+      console.log("stage case: ", currentStage);
+      return Left_2;
+    case 1:
+      console.log("stage case: ", currentStage);
+      return Left_1;
+    case 0:
+      console.log("stage case: ", currentStage);
+      return gameOver;
+  }
+}
+
+// const Hangman = props => {
+//   return  <Pictures {...props} currentStage={props.currentStage} className="Hangman"/>;
+// };
+
+export default Pictures;

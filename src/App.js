@@ -39,7 +39,7 @@ function App() {
   function startGame(e) {
     e.preventDefault();
     socket.on("new user", setwordLength);
-    console.log(state.currentStage);
+    // console.log(state.currentStage);
     setState(() => {
       return { newGame: true, currentStage: state.currentStage - 1 };
     });
