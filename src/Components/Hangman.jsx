@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 import notStarted from "../images/notStarted.png";
 import gameOver from "../images/gameOver.png";
@@ -26,40 +25,28 @@ const Pictures = styled.div`
 const handleStage =currentStage => {
   switch (currentStage) {
     case 11:
-      console.log("stage case: ", currentStage);
       return notStarted;
     case 10:
-      console.log("stage case: ", currentStage);
       return Left_10;
     case 9:
-      console.log("stage case: ", currentStage);
       return Left_9;
     case 8:
-      console.log("stage case: ", currentStage);
       return Left_8;
     case 7:
-      console.log("stage case: ", currentStage);
       return Left_7;
     case 6:
-      console.log("stage case: ", currentStage);
       return Left_6;
     case 5:
-      console.log("stage case: ", currentStage);
       return Left_5;
     case 4:
-      console.log("stage case: ", currentStage);
       return Left_4;
     case 3:
-      console.log("stage case: ", currentStage);
       return Left_3;
     case 2:
-      console.log("stage case: ", currentStage);
       return Left_2;
     case 1:
-      console.log("stage case: ", currentStage);
       return Left_1;
     case 0:
-      console.log("stage case: ", currentStage);
       return gameOver;
   }
 }

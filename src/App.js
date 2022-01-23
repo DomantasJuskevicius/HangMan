@@ -16,71 +16,82 @@ const QUIT = styled.button`
   display: ${(props) => (props.newGame ? "QUIT" : "none")};
 `;
 
+const INPUT = styled.ul`
+  display: ${(props) => (props.newGame ? "INPUT" : "none")};
+`;
+
+
 function App() {
   var [wordLength, setwordLength] = useState("");
-  const [state, setState] = useState({
-    currentStage: 11,
-    guessedLetters: [],
-    correct: [],
-    incorrect: [],
-    newGame: false,
-  });
+  var [newGame, setnewGame] = useState("");
+  var [gameData, setgameData] = useState("");
+  const [sendRequest, setSendRequest] = useState(false);
+  const [sendGame, setsendGame] = useState(false);
 
   useEffect(() => {
     socket.on("new user", setwordLength);
     socket.on("user left", setwordLength);
+    socket.on("sendAnswer", setgameData);
+    if (sendRequest) {
+      socket.on("sendAnswer", setgameData);
+      setSendRequest(false);
+    }
+    if (sendGame) {
+      socket.emit("startGame", newGame);
+      socket.on("sendAnswer", setgameData);
+      setsendGame(false);
+    }
+
     return () => {
       socket.on("disconnect", () => {
-        registerDisconnectHandler();
+        console.log("disconnect");
       });
     };
-  }, []);
+  }, [sendRequest, sendGame]);
 
   function startGame(e) {
     e.preventDefault();
-    socket.on("new user", setwordLength);
-    // console.log(state.currentStage);
-    setState(() => {
-      return { newGame: true, currentStage: state.currentStage - 1 };
-    });
+    socket.on("sendAnswer", setgameData);
+    setnewGame(true);
+    setsendGame(true);
   }
-  function registerDisconnectHandler() {
-    socket.on("disconnect", () => {
-      console.log("Disconnected");
-    });
-    setState(() => {
-      return { newGame: false, currentStage: 11 };
-    });
+
+  function endGame(e) {
+    e.preventDefault();
+    socket.on("sendAnswer", setgameData);
+    setnewGame(false);
+    setsendGame(true);
   }
+
   function Strokes() {
     return (
-      <ul>
+      <div>
         {Array.from(Array(wordLength), (e, i) => {
           return (
             <span key={(e, i)}>
-              <Stroke newGame={state.newGame} />
+              {/* <INPUT newGame={newGame}>a</INPUT> */}
+              <Stroke newGame={newGame} />
             </span>
           );
         })}
-      </ul>
+      </div>
     );
   }
+  console.log(gameData);
   return (
-    <>
-      <Container>
-        <GameName>Hangman</GameName>
-        <START onClick={startGame} newGame={state.newGame}>
-          NEW GAME
-        </START>
-        <QUIT onClick={registerDisconnectHandler} newGame={state.newGame}>
-          GIVE UP
-        </QUIT>
-        <Text newGame={state.newGame}>Guess the word</Text>
-        <Hangman currentStage={state.currentStage} />
-        <Strokes />
-        <Letters newGame={state.newGame} />
-      </Container>
-    </>
+    <Container>
+      <GameName>Hangman</GameName>
+      <START onClick={startGame} newGame={newGame}>
+        NEW GAME
+      </START>
+      <QUIT onClick={endGame} newGame={newGame}>
+        GIVE UP
+      </QUIT>
+      <Text newGame={newGame}>Guess the word</Text>
+      <Hangman currentStage={gameData.stage} />
+      <Strokes />
+      <Letters newGame={newGame} onClick={() => setSendRequest(true)} />
+    </Container>
   );
 }
 
