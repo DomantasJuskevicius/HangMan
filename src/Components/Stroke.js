@@ -1,12 +1,17 @@
 import React from "react";
+import styled from "styled-components";
 
-function Stroke() {
+const SVG = styled.svg`
+  display: ${(props) => (props.newGame ? "Container" : "none")};
+`;
+
+function Stroke(props) {
   return (
-    <svg height="80" width="40">
+    <SVG height="80" width="40" {...props}>
       <g fill="none" stroke="black">
         <path strokeLinecap="round" strokeWidth="4" d="M5 20 l215 0" />
       </g>
-    </svg>
+    </SVG>
   );
 }
 
