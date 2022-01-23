@@ -1,9 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import socketIOClient from "socket.io-client";
-
-const ENDPOINT = "http://127.0.0.1:8123/";
-const socket = socketIOClient(ENDPOINT);
+import {socket} from "../service/socket"
 
 const Container = styled.ul`
   padding: 0;

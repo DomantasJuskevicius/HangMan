@@ -16,13 +16,13 @@ const Pictures = styled.div`
   border: 1px solid #000;
   width: 300px;
   height: 300px;
-  background: url(${({currentStage}) => handleStage(currentStage)}) center;
+  background: url(${({ currentStage }) => handleStage(currentStage)}) center;
   background-size: 100%;
   margin: 0 15px;
   transition: all 0.3s linear;
 `;
 
-const handleStage =currentStage => {
+const handleStage = (currentStage) => {
   switch (currentStage) {
     case 11:
       return notStarted;
@@ -48,8 +48,10 @@ const handleStage =currentStage => {
       return Left_1;
     case 0:
       return gameOver;
+    case currentStage < 0:
+      return gameOver;
   }
-}
+};
 
 // const Hangman = props => {
 //   return  <Pictures {...props} currentStage={props.currentStage} className="Hangman"/>;
