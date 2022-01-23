@@ -18,20 +18,12 @@ const QUIT = styled.button`
   display: ${(props) => (props.newGame ? "QUIT" : "none")};
 `;
 
-const INPUT = styled.ul`
-  display: ${(props) => (props.newGame ? "INPUT" : "none")};
-`;
-
 const GamePlaying = styled.div`
   display: ${(props) => (props.gameFinished ? "none" : "GamePlaying")};
 `;
 
 const GameEnded = styled.div`
   display: ${(props) => (props.gameFinished ? "gameEnded" : "none")};
-`;
-
-const GameLost = styled.div`
-  display: ${(props) => (props.gameLost ? "gameEnded" : "none")};
 `;
 
 const STROKES = styled.div`
@@ -62,7 +54,6 @@ function App() {
       socket.emit("startGame", newGame);
       socket.on("sendAnswer", setgameData);
       console.log("Send game");
-      setgameFinished(false);
       setsendGame(false);
     }
     if (sendRequest) {
@@ -75,7 +66,7 @@ function App() {
       setgameWon(true);
       setgameFinished(true);
     }
-    if (gameData.stage == 0){
+    if (gameData.stage == 0) {
       setgameFinished(true);
       setgameLost(true);
     }
@@ -84,7 +75,7 @@ function App() {
         console.log("disconnect");
       });
     };
-  }, [sendRequest, sendGame, gameLost, gameWon, gameFinished]);
+  }, [sendRequest, sendGame]);
 
   function startGame(e) {
     console.log(socket.id);
@@ -104,7 +95,7 @@ function App() {
   function refreshPage() {
     window.location.reload(false);
   }
-  
+
   function Strokes(props) {
     console.log(props);
     return (
@@ -143,10 +134,10 @@ function App() {
         <h1>YOU WIN</h1>
         <button onClick={refreshPage}>Click to play again!</button>
       </GameEnded>
-      <GameLost gameLost={gameLost}>
+      <GameEnded gameFinished={gameLost}>
         <h1>YOU LOST</h1>
         <button onClick={refreshPage}>Click to play again!</button>
-      </GameLost>
+      </GameEnded>
     </Container>
   );
 }
